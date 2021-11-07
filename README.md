@@ -34,6 +34,10 @@ python -um batch_rl.fixed_replay.train \
 ```
 For 1% data, use `minq_weight=4.0` and for 10% data, use `minq_weight=1.0`. 
 
+Note,
+```
+--gin_files='batch_rl/fixed_replay/configs/quantile.gin'
+```
 ## D4RL Experiments
 Our code is built off of [rlkit](https://github.com/vitchyr/rlkit). Please install the conda environment for rlkit while making sure to install `torch>=1.1.0`. Please install [d4rl](https://github.com/rail-berkeley/d4rl). Code for the CQL algorithm is present in `rlkit/torch/sac/cql.py`. After this, for running CQL on the MuJoCo environments, run:
 

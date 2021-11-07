@@ -29,6 +29,8 @@ import os
 from absl import app
 from absl import flags
 
+# import run_experiment
+# from ..fixed_replay.agents import dqn_agent,multi_head_dqn_agent,quantile_agent,rainbow_agent
 from batch_rl.fixed_replay import run_experiment
 from batch_rl.fixed_replay.agents import dqn_agent
 from batch_rl.fixed_replay.agents import multi_head_dqn_agent
@@ -87,6 +89,7 @@ def main(unused_argv):
   replay_data_dir = os.path.join(FLAGS.replay_dir, 'replay_logs')
   create_agent_fn = functools.partial(
       create_agent, replay_data_dir=replay_data_dir)
+  print('I am here')
   runner = run_experiment.FixedReplayRunner(FLAGS.base_dir, create_agent_fn)
   runner.run_experiment()
 

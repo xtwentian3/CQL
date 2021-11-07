@@ -13,13 +13,14 @@ import numpy as np
 
 import h5py
 import d4rl, gym
+import torch
 
 def load_hdf5(dataset, replay_buffer):
     replay_buffer._observations = dataset['observations']
     replay_buffer._next_obs = dataset['next_observations']
     replay_buffer._actions = dataset['actions']
     replay_buffer._rewards = np.expand_dims(np.squeeze(dataset['rewards']), 1)
-    replay_buffer._terminals = np.expand_dims(np.squeeze(dataset['terminals']), 1)  
+    replay_buffer._terminals = np.expand_dims(np.squeeze(dataset['terminals']), 1)
     replay_buffer._size = dataset['terminals'].shape[0]
     print ('Number of terminals on: ', replay_buffer._terminals.sum())
     replay_buffer._top = replay_buffer._size
@@ -157,7 +158,7 @@ if __name__ == "__main__":
     )
     
     parser = argparse.ArgumentParser()
-    parser.add_argument("--env", type=str, default='hopper-medium-v0')
+    parser.add_argument("--env", type=str, default='hopper-medium-v2')
     parser.add_argument("--gpu", default='0', type=str)
     parser.add_argument("--max_q_backup", type=str, default="False")          # if we want to try max_{a'} backups, set this to true
     parser.add_argument("--deterministic_backup", type=str, default="True")   # defaults to true, it does not backup entropy in the Q-function, as per Equation 3
@@ -185,8 +186,11 @@ if __name__ == "__main__":
     variant['load_buffer'] = True
     variant['env_name'] = args.env
     variant['seed'] = args.seed
-
+    # print(f"start {variant['env_name']} end")
+    if not os.path.exists("../../atari/cql_runs"):
+        os.makedirs("../../atari/cql_runs")
     rnd = np.random.randint(0, 1000000)
-    setup_logger(os.path.join('CQL_offline_mujoco_runs', str(rnd)), variant=variant, base_log_dir='/nfs/kun1/users/aviralkumar/random_expert_CQL_runs')
-    ptu.set_gpu_mode(True)
+    setup_logger(os.path.join('CQL_offline_mujoco_runs', str(rnd)), variant=variant, base_log_dir='../../atari/cql_runs')
+    if torch.cuda.is_available():
+        ptu.set_gpu_mode(True)
     experiment(variant)

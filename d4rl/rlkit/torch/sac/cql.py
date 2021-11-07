@@ -50,7 +50,7 @@ class CQLTrainer(TorchTrainer):
     ):
         super().__init__()
         self.env = env
-        self.policy = policy
+        self.policy = policy.to(torch.device("cuda" if torch.cuda.is_available() else "cpu"))
         self.qf1 = qf1
         self.qf2 = qf2
         self.target_qf1 = target_qf1
@@ -128,9 +128,11 @@ class CQLTrainer(TorchTrainer):
         self.discrete = False
     
     def _get_tensor_values(self, obs, actions, network=None):
+        obs = obs.to("cuda" if torch.cuda.is_available() else "cpu")
+        actions = actions.to("cuda" if torch.cuda.is_available() else "cpu")
         action_shape = actions.shape[0]
         obs_shape = obs.shape[0]
-        num_repeat = int (action_shape / obs_shape)
+        num_repeat = int(action_shape / obs_shape)
         obs_temp = obs.unsqueeze(1).repeat(1, num_repeat, 1).view(obs.shape[0] * num_repeat, obs.shape[1])
         preds = network(obs_temp, actions)
         preds = preds.view(obs.shape[0], num_repeat, 1)
