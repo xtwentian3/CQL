@@ -1,0 +1,18 @@
+python d4rl/examples/cql_mujoco_new.py --env=hopper-medium-v2 --policy_lr=1e-4 --seed=10 --lagrange_thresh=-1.0 --min_q_weight=5.0 --min_q_version=3
+
+nohup python -u d4rl/examples/cql_mujoco_new.py --env=hopper-medium-v2 --policy_lr=1e-4 --seed=10 --lagrange_thresh=-1.0 --min_q_weight=5.0 --min_q_version=3  > ./mains/files/cql_hopper-medium-v2.file 2>&1 &
+python examples/cql_mujoco_new.py --env=<d4rl-mujoco-env-with-version e.g. hopper-medium-v0>
+        --policy_lr=1e-4 --seed=10 --lagrange_thresh=-1.0
+        --min_q_weight=(5.0 or 10.0) --gpu=<gpu-id> --min_q_version=ca3
+
+11/19/19:14     (closed)
+nohup python -u d4rl/examples/cql_mujoco_new.py --env=hopper-medium-v2 --policy_lr=1e-4 --seed=10 --lagrange_thresh=-1.0 --min_q_weight=5.0 --min_q_version=3  > ./mains/files/cql_test.file 2>&1 &
+19:16           (closed)
+nohup python -u d4rl/examples/cql_mujoco_new.py --env=hopper-medium-v2 --policy_lr=1e-4 --seed=10 --lagrange_thresh=-1.0 --min_q_weight=5.0 --min_q_version=3  > ./mains/files/cql_test2.file 2>&1 &
+19:25           (closed)
+nohup python -u d4rl/examples/cql_mujoco_new.py --env=hopper-medium-v2 --policy_lr=1e-4 --seed=10 --lagrange_thresh=-1.0 --min_q_weight=5.0 --min_q_version=3  > ./mains/files/cql_test.file 2>&1 &
+19:25   24759   (closed)
+nohup python -u d4rl/examples/cql_mujoco_new.py --env=hopper-medium-v2 --policy_lr=1e-4 --seed=10 --lagrange_thresh=-1.0 --min_q_weight=5.0 --min_q_version=3  > ./mains/files/cql_test.file 2>&1 &
+23:32   25746
+nohup python -u d4rl/examples/cql_mujoco_new.py --env=hopper-medium-v2 --policy_lr=1e-4 --seed=10 --lagrange_thresh=-1.0 --min_q_weight=5.0 --min_q_version=3  > ./mains/files/cql_test.file 2>&1 &
+

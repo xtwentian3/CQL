@@ -81,62 +81,62 @@ class BaseRLAlgorithm(object, metaclass=abc.ABCMeta):
     def _log_stats(self, epoch):
         logger.log("Epoch {} finished".format(epoch), with_timestamp=True)
 
-        """
-        Replay Buffer
-        """
-        logger.record_dict(
-            self.replay_buffer.get_diagnostics(),
-            prefix='replay_buffer/'
-        )
-
-        """
-        Trainer
-        """
-        logger.record_dict(self.trainer.get_diagnostics(), prefix='trainer/')
-
-        """
-        Exploration
-        """
-        logger.record_dict(
-            self.expl_data_collector.get_diagnostics(),
-            prefix='exploration/'
-        )
-        expl_paths = self.expl_data_collector.get_epoch_paths()
-        # import ipdb; ipdb.set_trace()
-        if hasattr(self.expl_env, 'get_diagnostics'):
-            logger.record_dict(
-                self.expl_env.get_diagnostics(expl_paths),
-                prefix='exploration/',
-            )
-        if not self.batch_rl or self.eval_both:
-            logger.record_dict(
-                eval_util.get_generic_path_information(expl_paths),
-                prefix="exploration/",
-            )
+        # """
+        # Replay Buffer
+        # """
+        # logger.record_dict(
+        #     self.replay_buffer.get_diagnostics(),
+        #     prefix='replay_buffer/'
+        # )
+        #
+        # """
+        # Trainer
+        # """
+        # logger.record_dict(self.trainer.get_diagnostics(), prefix='trainer/')
+        #
+        # """
+        # Exploration
+        # """
+        # logger.record_dict(
+        #     self.expl_data_collector.get_diagnostics(),
+        #     prefix='exploration/'
+        # )
+        # expl_paths = self.expl_data_collector.get_epoch_paths()
+        # # import ipdb; ipdb.set_trace()
+        # if hasattr(self.expl_env, 'get_diagnostics'):
+        #     logger.record_dict(
+        #         self.expl_env.get_diagnostics(expl_paths),
+        #         prefix='exploration/',
+        #     )
+        # if not self.batch_rl or self.eval_both:
+        #     logger.record_dict(
+        #         eval_util.get_generic_path_information(expl_paths),
+        #         prefix="exploration/",
+        #     )
         """
         Evaluation
         """
-        logger.record_dict(
-            self.eval_data_collector.get_diagnostics(),
-            prefix='evaluation/',
-        )
+        # logger.record_dict(
+        #     self.eval_data_collector.get_diagnostics(),
+        #     prefix='evaluation/',
+        # )
         eval_paths = self.eval_data_collector.get_epoch_paths()
-        if hasattr(self.eval_env, 'get_diagnostics'):
-            logger.record_dict(
-                self.eval_env.get_diagnostics(eval_paths),
-                prefix='evaluation/',
-            )
+        # if hasattr(self.eval_env, 'get_diagnostics'):
+        #     logger.record_dict(
+        #         self.eval_env.get_diagnostics(eval_paths),
+        #         prefix='evaluation/',
+        #     )
         logger.record_dict(
             eval_util.get_generic_path_information(eval_paths),
             prefix="evaluation/",
         )
 
-        """
-        Misc
-        """
-        gt.stamp('logging')
-        logger.record_dict(_get_epoch_timings())
-        logger.record_tabular('Epoch', epoch)
+        # """
+        # Misc
+        # """
+        # gt.stamp('logging')
+        # logger.record_dict(_get_epoch_timings())
+        # logger.record_tabular('Epoch', epoch)
         logger.dump_tabular(with_prefix=False, with_timestamp=False)
 
     @abc.abstractmethod

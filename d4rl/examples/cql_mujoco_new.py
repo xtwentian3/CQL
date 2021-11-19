@@ -121,7 +121,7 @@ if __name__ == "__main__":
         env_name='Hopper-v2',
         sparse_reward=False,
         algorithm_kwargs=dict(
-            num_epochs=3000,
+            num_epochs=3000,  # 训练总轮数
             num_eval_steps_per_epoch=1000,
             num_trains_per_train_loop=1000,  
             num_expl_steps_per_train_loop=1000,
