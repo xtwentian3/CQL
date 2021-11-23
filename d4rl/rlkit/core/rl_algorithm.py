@@ -7,6 +7,7 @@ from rlkit.core import logger, eval_util
 from rlkit.data_management.replay_buffer import ReplayBuffer
 from rlkit.samplers.data_collector import DataCollector
 import numpy as np
+import torch
 
 
 def _get_epoch_timings():
@@ -82,70 +83,46 @@ class BaseRLAlgorithm(object, metaclass=abc.ABCMeta):
             snapshot['replay_buffer/' + k] = v
         return snapshot
 
+    def save_model(self, name):
+        self._save_model(f"{self.log_add}/{name}")
+
+    def _save_model(self, filename):
+        torch.save(self.trainer.policy.state_dict(), filename + "_policy")
+        torch.save(self.trainer.policy_optimizer.state_dict(), filename + "_policy_optimizer")
+
+        torch.save(self.trainer.qf1.state_dict(), filename + "_qf1")
+        torch.save(self.trainer.qf1_optimizer.state_dict(), filename + "_qf1_optimizer")
+
+        torch.save(self.trainer.qf2.state_dict(), filename + "_qf2")
+        torch.save(self.trainer.qf2_optimizer.state_dict(), filename + "_qf2_optimizer")
+
+    def _load_model(self, filename):
+        self.trainer.policy.load_state_dict(torch.load(filename + "_policy"))
+        self.trainer.policy_optimizer.load_state_dict(torch.load(filename + "_policy_optimizer"))
+
+        self.trainer.qf1.load_state_dict(torch.load(filename + "_qf1"))
+        self.trainer.qf1_optimizer.load_state_dict(torch.load(filename + "_qf1_optimizer"))
+        self.trainer.target_qf1 = copy.deepcopy(self.trainer.qf1)
+
+        self.trainer.qf2.load_state_dict(torch.load(filename + "_qf2"))
+        self.trainer.qf2_optimizer.load_state_dict(torch.load(filename + "_qf2_optimizer"))
+        self.trainer.target_qf2 = copy.deepcopy(self.trainer.qf2)
+
     def _log_stats(self, epoch):
         logger.log("Epoch {} finished".format(epoch), with_timestamp=True)
-
-        # """
-        # Replay Buffer
-        # """
-        # logger.record_dict(
-        #     self.replay_buffer.get_diagnostics(),
-        #     prefix='replay_buffer/'
-        # )
-        #
-        # """
-        # Trainer
-        # """
-        # logger.record_dict(self.trainer.get_diagnostics(), prefix='trainer/')
-        #
-        # """
-        # Exploration
-        # """
-        # logger.record_dict(
-        #     self.expl_data_collector.get_diagnostics(),
-        #     prefix='exploration/'
-        # )
-        # expl_paths = self.expl_data_collector.get_epoch_paths()
-        # # import ipdb; ipdb.set_trace()
-        # if hasattr(self.expl_env, 'get_diagnostics'):
-        #     logger.record_dict(
-        #         self.expl_env.get_diagnostics(expl_paths),
-        #         prefix='exploration/',
-        #     )
-        # if not self.batch_rl or self.eval_both:
-        #     logger.record_dict(
-        #         eval_util.get_generic_path_information(expl_paths),
-        #         prefix="exploration/",
-        #     )
         """
         Evaluation
         """
-        # logger.record_dict(
-        #     self.eval_data_collector.get_diagnostics(),
-        #     prefix='evaluation/',
-        # )
         eval_paths = self.eval_data_collector.get_epoch_paths()
-        # if hasattr(self.eval_env, 'get_diagnostics'):
-        #     logger.record_dict(
-        #         self.eval_env.get_diagnostics(eval_paths),
-        #         prefix='evaluation/',
-        #     )
-        # logger.record_dict(
-        #     eval_util.get_generic_path_information(eval_paths),
-        #     prefix="evaluation/",
-        # )
         sta = eval_util.get_generic_path_information(eval_paths)
 
         self.evaluations = np.append(self.evaluations, sta['Average Returns'])
         np.save(f"{self.log_add}/reward_tran", self.evaluations)
-        print(sta['Average Returns'])  # ).keys()
-        # """
-        # Misc
-        # """
-        # gt.stamp('logging')
-        # logger.record_dict(_get_epoch_timings())
-        # logger.record_tabular('Epoch', epoch)
-        # logger.dump_tabular(with_prefix=False, with_timestamp=False)
+        print(sta['Average Returns'])
+
+        # 阶段性保存模型
+        if epoch % 20 == 0:
+            self.save_model(f"num_{epoch}")
 
     @abc.abstractmethod
     def training_mode(self, mode):

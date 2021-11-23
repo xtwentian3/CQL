@@ -29,10 +29,6 @@ class TorchBatchRLAlgorithm(BatchRLAlgorithm):
         for net in self.trainer.networks:
             net.train(mode)
 
-    # def save_(self, itr):
-    #     for net in self.trainer.networks:
-    #         net.save(iter)
-
 
 class TorchTrainer(Trainer, metaclass=abc.ABCMeta):
     def __init__(self):

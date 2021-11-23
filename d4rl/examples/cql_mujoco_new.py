@@ -105,6 +105,9 @@ def experiment(variant):
     algorithm.to(ptu.device)
     algorithm.train()
 
+    # # Save final policy
+    algorithm.save_model("final_policy")
+
 def enable_gpus(gpu_str):
     if (gpu_str is not ""):
         os.environ["CUDA_VISIBLE_DEVICES"] = gpu_str
