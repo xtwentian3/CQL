@@ -6,6 +6,7 @@ import gtimer as gt
 from rlkit.core import logger, eval_util
 from rlkit.data_management.replay_buffer import ReplayBuffer
 from rlkit.samplers.data_collector import DataCollector
+import numpy as np
 
 
 def _get_epoch_timings():
@@ -27,6 +28,7 @@ class BaseRLAlgorithm(object, metaclass=abc.ABCMeta):
             trainer,
             exploration_env,
             evaluation_env,
+            log_add,
             exploration_data_collector: DataCollector,
             evaluation_data_collector: DataCollector,
             replay_buffer: ReplayBuffer,
@@ -40,6 +42,8 @@ class BaseRLAlgorithm(object, metaclass=abc.ABCMeta):
         self._start_epoch = 0
 
         self.post_epoch_funcs = []
+        self.evaluations = []
+        self.log_add = log_add
 
     def train(self, start_epoch=0):
         self._start_epoch = start_epoch
@@ -126,18 +130,22 @@ class BaseRLAlgorithm(object, metaclass=abc.ABCMeta):
         #         self.eval_env.get_diagnostics(eval_paths),
         #         prefix='evaluation/',
         #     )
-        logger.record_dict(
-            eval_util.get_generic_path_information(eval_paths),
-            prefix="evaluation/",
-        )
+        # logger.record_dict(
+        #     eval_util.get_generic_path_information(eval_paths),
+        #     prefix="evaluation/",
+        # )
+        sta = eval_util.get_generic_path_information(eval_paths)
 
+        self.evaluations = np.append(self.evaluations, sta['Average Returns'])
+        np.save(f"{self.log_add}/reward_tran", self.evaluations)
+        print(sta['Average Returns'])  # ).keys()
         # """
         # Misc
         # """
         # gt.stamp('logging')
         # logger.record_dict(_get_epoch_timings())
         # logger.record_tabular('Epoch', epoch)
-        logger.dump_tabular(with_prefix=False, with_timestamp=False)
+        # logger.dump_tabular(with_prefix=False, with_timestamp=False)
 
     @abc.abstractmethod
     def training_mode(self, mode):

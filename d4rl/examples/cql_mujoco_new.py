@@ -99,6 +99,7 @@ def experiment(variant):
         replay_buffer=replay_buffer,
         eval_both=True,
         batch_rl=variant['load_buffer'],
+        log_add=variant['file_name'],
         **variant['algorithm_kwargs']
     )
     algorithm.to(ptu.device)
@@ -121,7 +122,7 @@ if __name__ == "__main__":
         env_name='Hopper-v2',
         sparse_reward=False,
         algorithm_kwargs=dict(
-            num_epochs=3000,  # 训练总轮数
+            num_epochs=50,  # 训练总轮数
             num_eval_steps_per_epoch=1000,
             num_trains_per_train_loop=1000,  
             num_expl_steps_per_train_loop=1000,
@@ -187,10 +188,17 @@ if __name__ == "__main__":
     variant['env_name'] = args.env
     variant['seed'] = args.seed
     # print(f"start {variant['env_name']} end")
-    if not os.path.exists("../../atari/cql_runs"):
-        os.makedirs("../../atari/cql_runs")
+    file_name = f"/nfs/project/mingyue/lmycq/mains/cql_runs"
+    if not os.path.exists(file_name):
+        os.makedirs(file_name)
     rnd = np.random.randint(0, 1000000)
-    setup_logger(os.path.join('CQL_offline_mujoco_runs', str(rnd)), variant=variant, base_log_dir='../../atari/cql_runs')
+    # setup_logger(os.path.join(str(rnd)), variant=variant, base_log_dir=file_name)
+    file_name = f"{file_name}/{str(rnd)}"
+    if not os.path.exists(file_name):
+        # print("I am in")
+        os.makedirs(file_name)
+    print(f'** The num is: {str(rnd)} **')
+    variant['file_name'] = file_name
     if torch.cuda.is_available():
         ptu.set_gpu_mode(True)
     experiment(variant)

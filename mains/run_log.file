@@ -13,6 +13,13 @@ nohup python -u d4rl/examples/cql_mujoco_new.py --env=hopper-medium-v2 --policy_
 nohup python -u d4rl/examples/cql_mujoco_new.py --env=hopper-medium-v2 --policy_lr=1e-4 --seed=10 --lagrange_thresh=-1.0 --min_q_weight=5.0 --min_q_version=3  > ./mains/files/cql_test.file 2>&1 &
 19:25   24759   (closed)
 nohup python -u d4rl/examples/cql_mujoco_new.py --env=hopper-medium-v2 --policy_lr=1e-4 --seed=10 --lagrange_thresh=-1.0 --min_q_weight=5.0 --min_q_version=3  > ./mains/files/cql_test.file 2>&1 &
-23:32   25746
+23:32   25746   (closed)
+nohup python -u d4rl/examples/cql_mujoco_new.py --env=hopper-medium-v2 --policy_lr=1e-4 --seed=10 --lagrange_thresh=-1.0 --min_q_weight=5.0 --min_q_version=3  > ./mains/files/cql_test.file 2>&1 &
+23:58   更改了运行轮数     26409
 nohup python -u d4rl/examples/cql_mujoco_new.py --env=hopper-medium-v2 --policy_lr=1e-4 --seed=10 --lagrange_thresh=-1.0 --min_q_weight=5.0 --min_q_version=3  > ./mains/files/cql_test.file 2>&1 &
 
+11/20/00:28   更改了打印值     26447  00:33/:26482    00:37/:26616
+nohup python -u d4rl/examples/cql_mujoco_new.py --env=hopper-medium-v2 --policy_lr=1e-4 --seed=10 --lagrange_thresh=-1.0 --min_q_weight=5.0 --min_q_version=3  > ./mains/files/cql_test2.file 2>&1 &
+
+11/22/22:56   应该能保存了     29774  23:04/:29812    23:46/30292
+nohup python -u d4rl/examples/cql_mujoco_new.py --env=hopper-medium-v2 --policy_lr=1e-4 --seed=10 --lagrange_thresh=-1.0 --min_q_weight=5.0 --min_q_version=3  > ./mains/files/cql_test2.file 2>&1 &
