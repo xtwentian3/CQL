@@ -125,7 +125,7 @@ if __name__ == "__main__":
         env_name='Hopper-v2',
         sparse_reward=False,
         algorithm_kwargs=dict(
-            num_epochs=50,  # 训练总轮数
+            num_epochs=3000,  # 训练总轮数
             num_eval_steps_per_epoch=1000,
             num_trains_per_train_loop=1000,  
             num_expl_steps_per_train_loop=1000,
@@ -196,11 +196,11 @@ if __name__ == "__main__":
         os.makedirs(file_name)
     rnd = np.random.randint(0, 1000000)
     # setup_logger(os.path.join(str(rnd)), variant=variant, base_log_dir=file_name)
-    file_name = f"{file_name}/{str(rnd)}"
+    file_name = f"{file_name}/{args.env.split('-')[0]}_{str(rnd)}"
     if not os.path.exists(file_name):
         # print("I am in")
         os.makedirs(file_name)
-    print(f'** The num is: {str(rnd)} **')
+    print(f"** The name is: {file_name.split('/')[-1]} **")
     variant['file_name'] = file_name
     if torch.cuda.is_available():
         ptu.set_gpu_mode(True)

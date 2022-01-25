@@ -121,7 +121,7 @@ class BaseRLAlgorithm(object, metaclass=abc.ABCMeta):
         print(sta['Average Returns'])
 
         # 阶段性保存模型
-        if epoch % 20 == 0:
+        if epoch>0 and epoch % 1000 == 0:
             self.save_model(f"num_{epoch}")
 
     @abc.abstractmethod

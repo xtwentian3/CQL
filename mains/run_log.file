@@ -27,3 +27,23 @@ nohup python -u d4rl/examples/cql_mujoco_new.py --env=hopper-medium-v2 --policy_
 11/23/16:06   应该能保存模型了  30656   17:01/30804
 nohup python -u d4rl/examples/cql_mujoco_new.py --env=hopper-medium-v2 --policy_lr=1e-4 --seed=10 --lagrange_thresh=-1.0 --min_q_weight=5.0 --min_q_version=3  > ./mains/files/cql_test3.file 2>&1 &
 file:3922       ok      但是模型保存的有点点问题，不过无伤大雅，准备增加训练轮数
+
+17:37   能保存模型,增加训练次数    30843
+nohup python -u d4rl/examples/cql_mujoco_new.py --env=hopper-medium-v2 --policy_lr=1e-4 --seed=10 --lagrange_thresh=-1.0 --min_q_weight=5.0 --min_q_version=3  > ./mains/files/cql_test5.file 2>&1 &
+file:311691
+
+11/27/11:32   halfcheetah测试1  17673     11:36/17710
+nohup python -u d4rl/examples/cql_mujoco_new.py --env=halfcheetah-medium-v2 --policy_lr=1e-4 --seed=10 --lagrange_thresh=-1.0 --min_q_weight=5.0 --min_q_version=3  > ./mains/files/cql_halfcheetah1.file 2>&1 &
+file: halfcheetah-medium-v2_88209
+
+11/28/22:19   walker2d测试1  26732        22:32/26773
+nohup python -u d4rl/examples/cql_mujoco_new.py --env=walker2d-medium-v2 --policy_lr=1e-4 --seed=10 --lagrange_thresh=-1.0 --min_q_weight=5.0 --min_q_version=3  > ./mains/files/cql_walker2d1.file 2>&1 &
+file: walker2d_873929
+
+11/30/9:27   ant测试1  10164
+nohup python -u d4rl/examples/cql_mujoco_new.py --env=ant-medium-v2 --policy_lr=1e-4 --seed=10 --lagrange_thresh=-1.0 --min_q_weight=5.0 --min_q_version=3  > ./mains/files/cql_ant1.file 2>&1 &
+file:   ant_713035
+
+12/11/14:04   tryenv  10164
+nohup python -u d4rl/examples/cql_mujoco_new.py --env=ant-medium-v2 --policy_lr=1e-4 --seed=10 --lagrange_thresh=-1.0 --min_q_weight=5.0 --min_q_version=3  > ./mains/files/cql_try.file 2>&1 &
+file:   ant_713035
